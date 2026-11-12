@@ -14,7 +14,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Something idk")
 parser.add_argument("--token", required=True, help="Your Discord bot token")
-parser.add_argument("--vm", required=False, help="Your Discord bot token", default=True)
+parser.add_argument("--vm", required=False, help="Your Discord bot token", default=False)
 args = parser.parse_args()
 token = args.token
 VM = args.vm
@@ -25,7 +25,7 @@ import re
 import ast
 import operator
 
-if VM:
+if VM == "true":
     import paramiko
 
     ssh = paramiko.SSHClient()
@@ -210,9 +210,9 @@ async def sendasbot(interaction: discord.Interaction, channel: discord.TextChann
     if interaction.user.id not in allowed_users:
         await interaction.response.send_message("You arent allowed to use this command", ephemeral=True)
         return
-    if channel.category_id == 1470824953321619588:
-        await interaction.response.send_message("you really though.", ephemeral=True)
-        return
+    # if channel.category_id == 1470824953321619588:
+    #     await interaction.response.send_message("you really though.", ephemeral=True)
+    #     return
     if not await mention.baremessage(bot, channel, message):
         await interaction.response.send_message("Something went wrong, please try again", ephemeral=True)
         return
