@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>the room is looking at you</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;800&display=swap');
+  :root { --acid:#d7ff00; --pink:#ff4f9a; --ink:#171717; --paper:#f4f0e8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:"Space Mono",monospace; overflow-x:hidden; cursor:crosshair; }
+  .top { padding:12px 5vw; background:var(--ink); color:var(--acid); display:flex; justify-content:space-between; font-size:11px; letter-spacing:.12em; }
+  main { max-width:1100px; margin:auto; padding:5vw; }
+  .eyebrow { font-size:11px; transform:rotate(-2deg); display:inline-block; background:var(--pink); padding:7px 12px; }
+  h1 { font:800 clamp(48px,10vw,118px)/.82 Syne,sans-serif; letter-spacing:-.08em; margin:30px 0 20px; max-width:900px; }
+  h1 span { color:var(--pink); text-shadow:4px 4px 0 var(--ink); }
+  .intro { max-width:510px; font-size:13px; line-height:1.8; margin:28px 0 48px; }
+  .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:14px; }
+  .card { border:2px solid var(--ink); padding:18px; min-height:190px; position:relative; overflow:hidden; box-shadow:5px 5px 0 var(--ink); background:white; }
+  .card h2 { font:800 21px Syne,sans-serif; margin:0 0 14px; }
+  .card p { font-size:11px; line-height:1.7; }
+  .wide { grid-column:span 7; } .narrow { grid-column:span 5; }
+  .half { grid-column:span 6; } .full { grid-column:span 12; }
+  .stamp { position:absolute; right:12px; bottom:10px; font-size:10px; transform:rotate(-8deg); }
+  .orb-card { background:var(--acid); display:grid; place-items:center; }
+  .orb { width:100px; height:100px; border-radius:50%; background:radial-gradient(circle at 35% 30%,white 0 4%,#ffb3d2 8%,#ff4f9a 35%,#7d1b59 75%); box-shadow:inset -10px -12px 18px #17171755, 0 0 0 8px #171717; animation: wobble 4s infinite ease-in-out; }
+  @keyframes wobble { 0%,100%{transform:rotate(-12deg) scale(.9)} 50%{transform:rotate(18deg) scale(1.08)} }
+  .meter { height:13px; border:2px solid; margin:20px 0 8px; padding:2px; }
+  .meter i { display:block; height:100%; width:13%; background:var(--pink); animation:load 7s infinite alternate; }
+  @keyframes load { to { width:97%; } }
+  .ticker { background:var(--pink); color:var(--ink); white-space:nowrap; overflow:hidden; padding:10px 0; font-weight:bold; font-size:12px; margin:35px -5vw; transform:rotate(1deg); }
+  .ticker span { display:inline-block; animation:slide 18s linear infinite; }
+  @keyframes slide { to { transform:translateX(-50%); } }
+  button { font:700 12px "Space Mono"; border:2px solid; background:var(--acid); padding:12px 15px; box-shadow:4px 4px 0; cursor:pointer; }
+  button:active { transform:translate(3px,3px); box-shadow:1px 1px 0; }
+  #oracle { min-height:42px; margin-top:15px; font-size:12px; line-height:1.6; }
+  .receipt { background:#fff; padding:15px; max-width:260px; margin:10px auto; transform:rotate(2deg); font-size:10px; line-height:1.8; border:1px dashed #777; }
+  .receipt strong { font-size:16px; }
+  .face { font-size:60px; text-align:center; line-height:1.2; filter:drop-shadow(3px 3px 0 var(--pink)); }
+  .foot { border-top:2px solid; margin-top:55px; padding:18px 0 35px; display:flex; justify-content:space-between; gap:20px; font-size:10px; }
+  .tiny { font-size:9px; opacity:.7; }
+  .floaty { position:fixed; pointer-events:none; z-index:5; font-size:20px; animation:vanish 1s forwards; }
+  @keyframes vanish { to { transform:translateY(-60px) rotate(100deg); opacity:0; } }
+  @media(max-width:650px){ .wide,.narrow,.half {grid-column:span 12;} .foot{flex-direction:column;} }
+</style>
+</head>
+<body>
+<div class="top"><span>DEPARTMENT OF UNNECESSARY OBJECTS</span><span>EST. YESTERDAY / ISSUE 000</span></div>
+<main>
+  <div class="eyebrow">⚠ PLEASE DO NOT MAKE EYE CONTACT WITH THE WEBSITE</div>
+  <h1>HELLO.<br>ARE YOU <span>STILL</span><br>IN THERE?</h1>
+  <p class="intro">This page was assembled by a committee of three confused spoons. It has no purpose, no plan, and a suspicious amount of confidence. Please enjoy your stay. The exit is emotionally unavailable.</p>
+
+  <section class="grid">
+    <article class="card wide">
+      <h2>01 / Official status report</h2>
+      <p>Everything is probably fine. A small man inside the computer has checked the wires and given us a thumbs-up. He is not certified.</p>
+      <div class="meter"><i></i></div>
+      <div class="tiny">VIBE INTEGRITY: <span id="vibe">13%</span> (ESTIMATED BY A PIGEON)</div>
+      <div class="stamp">FORM 8-B / DO NOT FILE</div>
+    </article>
+    <article class="card narrow orb-card">
+      <div><div class="orb"></div><p style="text-align:center;font-weight:bold">THE EGG KNOWS.</p></div>
+    </article>
+    <article class="card half">
+      <h2>02 / A face for the occasion</h2>
+      <div class="face" id="face">( ._. )</div>
+      <p style="text-align:center">He has heard what you did to the aux cable.</p>
+    </article>
+    <article class="card half">
+      <h2>03 / Customer feedback</h2>
+      <div class="receipt">
+        <strong>THANK YOU FOR EXISTING</strong><br>
+        1 × awkward silence ........ $0.00<br>
+        2 × suspicious blinking .... $0.00<br>
+        1 × emotional support rock .. $4.99<br>
+        -----------------------------<br>
+        TOTAL: one (1) concern<br>
+        <em>NO REFUNDS. NO QUESTIONS.</em>
+      </div>
+    </article>
+    <article class="card full">
+      <h2>04 / Ask the Oracle of Mild Inconvenience</h2>
+      <p>It has been awake for 46 hours and is legally considered a decorative lamp.</p>
+      <button id="ask">ASK A QUESTION YOU REGRET</button>
+      <div id="oracle">The oracle is pretending not to see you.</div>
+    </article>
+  </section>
+
+  <div class="ticker"><span>DO NOT FEED THE CSS &nbsp; ✳ &nbsp; YOUR SOCKS ARE IN A DIFFERENT ROOM NOW &nbsp; ✳ &nbsp; THIS IS A SAFE SPACE FOR BAD IDEAS &nbsp; ✳ &nbsp; DO NOT FEED THE CSS &nbsp; ✳ &nbsp; YOUR SOCKS ARE IN A DIFFERENT ROOM NOW &nbsp; ✳ &nbsp;</span></div>
+
+  <section class="grid">
+    <article class="card half">
+      <h2>05 / Today's weather inside your left shoe</h2>
+      <p style="font-size:24px;font-family:Syne;font-weight:800;margin:8px 0">Mostly damp.</p>
+      <p>Chance of tiny thunder: 82%. Wind direction: emotionally west.</p>
+    </article>
+    <article class="card half">
+      <h2>06 / A button with no career goals</h2>
+      <button id="button">PRESS FOR A CONSEQUENCE</button>
+      <p id="consequence">It is waiting for a sign.</p>
+    </article>
+  </section>
+
+  <footer class="foot"><span>© THE INTERNATIONAL BUREAU OF HUH</span><span>YOU HAVE BEEN HERE FOR <b id="seconds">0</b> SECONDS.</span><span class="tiny">PLEASE LEAVE A NICE REVIEW FOR THE EGG.</span></footer>
+</main>
+<script>
+const fortunes = [
+ "A spoon has been asking about you. It seems serious.",
+ "Your future contains a hallway. The hallway contains a smaller hallway.",
+ "Do not trust a sandwich with excellent posture.",
+ "Someone nearby is thinking about a lamp. It is not you. Probably.",
+ "You will soon receive a mysterious email titled 'regarding the beans'.",
+ "The number 4 has requested some privacy.",
+ "Your aura is buffering. Please do not refresh.",
+ "A distant microwave has forgiven you.",
+ "Today is a good day to become 2% more rectangular."
+];
+const consequences = [
+ "A committee has been formed. Nobody knows why.",
+ "You are now legally responsible for one imaginary ferret.",
+ "Somewhere, a printer just sighed.",
+ "The egg has updated its terms and conditions.",
+ "Nothing happened. This is the consequence.",
+ "A tiny trumpet played in an empty office."
+];
+const faces = ["( ._. )","( O_O )","( •_•)","( x_x )","( ಠ_ಠ)","( ʘ‿ʘ)"];
+document.getElementById("ask").addEventListener("click", () => {
+ document.getElementById("oracle").textContent = "“" + fortunes[Math.floor(Math.random()*fortunes.length)] + "”";
+ document.getElementById("face").textContent = faces[Math.floor(Math.random()*faces.length)];
+});
+document.getElementById("button").addEventListener("click", () => {
+ document.getElementById("consequence").textContent = consequences[Math.floor(Math.random()*consequences.length)];
+ document.body.style.setProperty("--pink", ["#ff4f9a","#ffb000","#8c7bff","#00d6b8"][Math.floor(Math.random()*4)]);
+});
+let seconds = 0;
+setInterval(() => {
+ seconds++;
+ document.getElementById("seconds").textContent = seconds;
+ document.getElementById("vibe").textContent = (13 + seconds*7)%101 + "%";
+}, 1000);
+document.addEventListener("click", e => {
+ const el = document.createElement("div");
+ el.className = "floaty";
+ el.textContent = ["⁉","✳","🫠","⋆","?"][Math.floor(Math.random()*5)];
+ el.style.left = e.clientX + "px"; el.style.top = e.clientY + "px";
+ document.body.appendChild(el); setTimeout(()=>el.remove(),1000);
+});
+</script>
+</body>
+</html>
