@@ -234,11 +234,11 @@ ignorelist=[1560314029300256798]
 async def on_message(message):
     if message.author == bot.user or message.author.id in ignorelist:
         return
-    respondwith = response.check_response(message)
-    if responsdwith == None:
+    respondwith = response.check_response(message.content.lower())
+    if respondwith == None:
         return
     await message.channel.send(respondwith)
-    
+
     # Process other events
     await bot.process_commands(message)
 
