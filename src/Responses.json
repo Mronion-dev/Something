@@ -32,10 +32,34 @@
         "tool": "<@1192938962415796295> TOOL MENTION!!!!",
         "tol": "<@1192938962415796295> TOOL MENTION!!!!",
         "toool": "<@1192938962415796295> TOOL MENTION!!!!",
-        "loot": "<@1192938962415796295> TOOL MENTION!!!!"
+        "loot": "<@1192938962415796295> TOOL MENTION!!!!",
+        "crazy": "Crazy? I was crazy once.\nThey put me in a room.",
+        "rubber rooom": "A rubber room with rats\nThey put me in a rubber room with rubber rats.",
+        "rubber rats": "I hate rubber rats.\nThey make me crazy.",
+        "jewish burger": "jewish burger"
     },
+    "Greetings": [
+        "hello",
+        "hi",
+        "whatsup",
+        "hai",
+        "meow meow",
+        "hiii",
+        "hai",
+        "sup",
+        "hii"
+    ],
     "Custom": {
         "say%!": "%!",
-        "mention%!": "{mention(%!)}"
+        "mention%!": "mention(%!)",
+        "im": "get_greetings() %!"
+    },
+    "Chelper": {
+        "mention": "mention",
+        "im": "get_greetings",
+        "say": ""
+
     }
+
+    
 }

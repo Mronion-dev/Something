@@ -237,6 +237,13 @@ async def sendasbot(interaction: discord.Interaction, channel: discord.TextChann
         return
     await interaction.response.send_message("sent", ephemeral=True)
 
+@bot.tree.command(name="reload", description="Reload the json file that contains a list of responses instead of having to reload the whole bot")
+async def reload(interaction: discord.Interaction):
+    print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}) requested reload!", flush=True)
+    await interaction.response.send_message(response.reload_files())
+    
+    
+
 #Make sure the bot started
 @bot.event
 async def on_ready():

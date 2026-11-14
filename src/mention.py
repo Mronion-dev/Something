@@ -20,7 +20,7 @@ def ping(user: str, message:str):
         
     # await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(f"{users[user]}, you've got mail!")
     # await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(message)
-    return users[user]
+    return users[user] + message
 
 async def bareping(bot: discord.client, user: str, channel: str, message: str):
     try:
