@@ -7,20 +7,20 @@ List_Path = Path(__file__).resolve().parent / "List.json"
 users=json.load(open(List_Path, "r"))["Users"]
 channels=json.load(open(List_Path, "r"))["Channels"]
 
-async def ping(bot: discord.client, user: str, channel: str, message:str):
+def ping(user: str, message:str):
     try:
         if users[user] == "":
-            await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send("User not found")
-            print(Warning("user not found"))
-            return
+            # await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send("User not found")
+            return "User not found"
     except Exception as exception:
         print(f"error: {exception}")
-        await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(f"User {user} not found")
+        # await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(f"User {user} not found")
         print(Warning("user not found"))
-        return
-    print(f"channel: {channels[channel]}")
-    await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(f"{users[user]}, you've got mail!")
-    await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(message)
+        return "user not found " + str(exception)
+        
+    # await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(f"{users[user]}, you've got mail!")
+    # await bot.get_channel(int(channels[channel].strip("<#").strip(">"))).send(message)
+    return users[user]
 
 async def bareping(bot: discord.client, user: str, channel: str, message: str):
     try:

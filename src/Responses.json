@@ -28,10 +28,14 @@
     },
     "Normal": {
         "<:beefly:1542190042859049072>": "<:beefly:1542190042859049072>",
-        "67": "[⠀](https://klipy.com/gifs/67-67-schoolsure)[⠀](https://klipy.com/gifs/67-67-schoolsure)",
+        "67 ": "https://klipy.com/gifs/67-67-school",
         "tool": "<@1192938962415796295> TOOL MENTION!!!!",
         "tol": "<@1192938962415796295> TOOL MENTION!!!!",
         "toool": "<@1192938962415796295> TOOL MENTION!!!!",
         "loot": "<@1192938962415796295> TOOL MENTION!!!!"
+    },
+    "Custom": {
+        "say%!": "%!",
+        "mention%!": "{mention(%!)}"
     }
 }

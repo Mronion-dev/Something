@@ -11,6 +11,12 @@ import random as Rand
 import json
 import urllib.request
 
+import secrets
+
+KILL_KEY = secrets.token_urlsafe(32)
+
+print(f"Shutdown key: {KILL_KEY}")
+
 import argparse
 
 parser = argparse.ArgumentParser(description="Something idk")
@@ -170,6 +176,16 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 async def debug(interaction: discord.Interaction, text: str):
     print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}): {text}", flush=True)
     await interaction.response.send_message("Printed to terminal.", ephemeral=True)
+
+@bot.tree.command(name="kill", description="KILL :D")
+@app_commands.describe(key="secret key to kill")
+async def kill(interaction: discord.Interaction, key: str):
+    print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}): recieved secret key {key}", flush=True)
+    if key == str(KILL_KEY):
+        await interaction.response.send_message(f"Shutting Down, requested by {interaction.user}")
+        await bot.close()
+    else:
+        await interaction.response.send_message("Wrong Key")
 
 if VM:   
     @bot.tree.command(name="terminal", description="Run commands on my machine (including sudo commands, uses fedora 44 with kde plasma).")
