@@ -148,19 +148,31 @@ async def on_ready():
 
 #List of Users/Bots to ignore
 ignorelist=[1560314029300256798]
+jades_server_id=1340360658633490453
 
 @bot.event
 async def on_message(message):
     if message.author == bot.user or message.author.id in ignorelist:
         return
+    if message.server.id == jades_server_id:
+        evilstuff()
     respondwith = response.check_response(message.content.lower())
     if respondwith == None:
+        await bot.process_commands(message)
         return
     try:
         await message.channel.send(respondwith)
     except:
         pass
+    
     # Process other events
     await bot.process_commands(message)
+
+#EVILLLLL STUFF TO DO TO JADE
+def evilstuff():
+    #do so many evil stuff it is evil
+    print("im doing evil stuff to your server muahahaaha")
+    for i in range(0,5,1):
+        print("evil is me")
 
 bot.run(token)
