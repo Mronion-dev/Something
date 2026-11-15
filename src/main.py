@@ -118,6 +118,18 @@ async def sendasbot(interaction: discord.Interaction, channel: discord.TextChann
         return
     await interaction.response.send_message("sent", ephemeral=True)
 
+@bot.tree.command(name="sendasbot2", description="Allows you to send messages to specific channels as the bot")
+@app_commands.describe(message="message")
+async def sendasbot(interaction: discord.Interaction, message: str):
+    print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}): message: {message}  ", flush=True)
+    if interaction.user.id not in allowed_users:
+        await interaction.response.send_message("You arent allowed to use this command", ephemeral=True)
+        return
+    # if channel.category_id == 1470824953321619588:
+    #     await interaction.response.send_message("you really though.", ephemeral=True)
+    #     return
+    await interaction.response.send_message(message)
+
 @bot.tree.command(name="reload", description="Reload the json file that contains a list of responses instead of having to reload the whole bot")
 async def reload(interaction: discord.Interaction):
     print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}) requested reload!", flush=True)
