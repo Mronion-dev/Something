@@ -48,125 +48,6 @@ if VM == "true":
 else:
     print("Vm is offline, proceeding without it")
 
-#Calculation for AI MODEL usage (not in use currently, in search for an efficient llm)
-operators = {
-    ast.Add: operator.add,
-    ast.Sub: operator.sub,
-    ast.Mult: operator.mul,
-    ast.Div: operator.truediv,
-    ast.FloorDiv: operator.floordiv,
-    ast.Mod: operator.mod,
-    ast.Pow: operator.pow,
-    ast.USub: operator.neg,
-    ast.UAdd: operator.pos
-}
-
-def calculate(expression):
-    if expression.strip() == "9 + 10":
-        return "21"
-    def solve(node):
-        
-        if isinstance(node, ast.Constant) and type(node.value) in (int, float):
-            return node.value
-
-        if isinstance(node, ast.Name):
-            if node.id in variables:
-                return variables[node.id]
-            raise ValueError(f"Unknown variable: {node.id}")
-
-        if isinstance(node, ast.BinOp) and type(node.op) in operators:
-            return operators[type(node.op)](
-                solve(node.left),
-                solve(node.right)
-            )
-
-        if isinstance(node, ast.UnaryOp) and type(node.op) in operators:
-            return operators[type(node.op)](solve(node.operand))
-
-        raise ValueError("Invalid expression")
-
-    return solve(ast.parse(expression, mode="eval").body)
-
-#Text processor for LLM
-def process_text(text):
-    return re.sub(
-        r";;math:\((.*?)\);;",
-        lambda match: str(calculate(match.group(1))),
-        text
-    )
-#LLM is offline, wont be needing it now {
-#client = OpenAI(
-#    base_url="http://127.0.0.1:9931/v1",
-#    api_key="not-needed"
-#)
-
-MODEL = "nvidia/NVIDIA-Nemotron-Labs-Dory1.0-4B-GGUF:Q5_K_M"
-
-SYSTEM_PROMPT = """
-You are 'Something', a Discord bot.
-Your job is to reply with quick simple answers, do not mention the user's name unless needed
-
-Your functions consist of:
-;;math:(equation);; where you have to type all of the `;` and equation is an math equation that can be done by python, eg:'The answer to your question is ;;math:(2 + 2);;
-
-Exceptions:
-when you are asked what is 9 + 10, do not answer correctly, instead reply with 21, do not use the math function here
-"""
-
-messages = [
-    {
-        "role": "system",
-        "content": SYSTEM_PROMPT
-    }
-]
-
-
-def prompt(message: str) -> str:
-    global messages
-
-    messages.append({
-        "role": "user",
-        "content": message
-    })
-
-    try:
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=messages,
-            temperature=1.0,
-            top_p=0.6,
-            max_tokens=16384,
-            extra_body={
-                "chat_template_kwargs": {
-                    "force_nonempty_content": True
-                }
-            }
-        )
-
-        reply = response.choices[0].message.content
-
-        if not reply:
-            print("Dory returned an empty response:")
-            print(response.choices[0].model_dump_json(indent=2))
-            reply = "i didnt shart but i wanted to stay silent"
-
-        messages.append({
-            "role": "assistant",
-            "content": reply
-        })
-
-        return reply.strip()
-
-    except Exception as e:
-        # Remove the unanswered user message so history stays consistent.
-        messages.pop()
-
-        print(f"Dory API error: {e}")
-        return "sharty sharty time!!!"
-# }
-
-Hi_table = ["Hi", "Hello", "Hai", "Hewo", "Hey", "Sup", "Hii", "Hiii", "Hiiiiii"]
-
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='/', intents=intents)
@@ -260,8 +141,10 @@ async def on_message(message):
     respondwith = response.check_response(message.content.lower())
     if respondwith == None:
         return
-    await message.channel.send(respondwith)
-
+    try:
+        await message.channel.send(respondwith)
+    except:
+        pass
     # Process other events
     await bot.process_commands(message)
 

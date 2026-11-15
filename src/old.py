@@ -100,4 +100,73 @@ async def on_message(message):
     # Process other events
     await bot.process_commands(message)
 
- 
+#LLM is offline, wont be needing it now {
+#client = OpenAI(
+#    base_url="http://127.0.0.1:9931/v1",
+#    api_key="not-needed"
+#)
+
+MODEL = "nvidia/NVIDIA-Nemotron-Labs-Dory1.0-4B-GGUF:Q5_K_M"
+
+SYSTEM_PROMPT = """
+You are 'Something', a Discord bot.
+Your job is to reply with quick simple answers, do not mention the user's name unless needed
+
+Your functions consist of:
+;;math:(equation);; where you have to type all of the `;` and equation is an math equation that can be done by python, eg:'The answer to your question is ;;math:(2 + 2);;
+
+Exceptions:
+when you are asked what is 9 + 10, do not answer correctly, instead reply with 21, do not use the math function here
+"""
+
+messages = [
+    {
+        "role": "system",
+        "content": SYSTEM_PROMPT
+    }
+]
+
+
+def prompt(message: str) -> str:
+    global messages
+
+    messages.append({
+        "role": "user",
+        "content": message
+    })
+
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=messages,
+            temperature=1.0,
+            top_p=0.6,
+            max_tokens=16384,
+            extra_body={
+                "chat_template_kwargs": {
+                    "force_nonempty_content": True
+                }
+            }
+        )
+
+        reply = response.choices[0].message.content
+
+        if not reply:
+            print("Dory returned an empty response:")
+            print(response.choices[0].model_dump_json(indent=2))
+            reply = "i didnt shart but i wanted to stay silent"
+
+        messages.append({
+            "role": "assistant",
+            "content": reply
+        })
+
+        return reply.strip()
+
+    except Exception as e:
+        # Remove the unanswered user message so history stays consistent.
+        messages.pop()
+
+        print(f"Dory API error: {e}")
+        return "sharty sharty time!!!"
+# }
