@@ -44,7 +44,7 @@ def check_response(message: str):
         for trigger, response in responses["Jarvis"].items():
             if trigger in message:
                 return random.choice(response.split("|")) + "[⠀](https://cdn.discordapp.com/attachments/857906826494476309/1531971192410345586/image.png?ex=6afa319a&is=6af8e01a&hm=d1e01073faa6f78c220d761e48cba8e35594e92bf3c867e875bc3548a7de1783&)"
-
+        return "what? " + "[⠀](https://cdn.discordapp.com/attachments/857906826494476309/1531971192410345586/image.png?ex=6afa319a&is=6af8e01a&hm=d1e01073faa6f78c220d761e48cba8e35594e92bf3c867e875bc3548a7de1783&)"
     # Check Normal responses (dictionary)
     for trigger, response in responses["Normal"].items():
         if trigger in message:

@@ -59,11 +59,11 @@ async def debug(interaction: discord.Interaction, text: str):
     await interaction.response.send_message("Printed to terminal.", ephemeral=True)
 
 @bot.tree.command(name="kill", description="KILL :D")
-@app_commands.describe(key="secret key to kill")
-async def kill(interaction: discord.Interaction, key: str):
+@app_commands.describe(key="secret key to kill", reason="The reason why it is being shutdown")
+async def kill(interaction: discord.Interaction, key: str, reason):
     print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}): recieved secret key {key}", flush=True)
     if key == str(KILL_KEY):
-        await interaction.response.send_message(f"Shutting Down, requested by {interaction.user}")
+        await interaction.response.send_message(f"Shutting Down, requested by {interaction.user}: ")
         await bot.close()
     else:
         await interaction.response.send_message("Wrong Key")
@@ -122,6 +122,21 @@ async def sendasbot(interaction: discord.Interaction, channel: discord.TextChann
 async def reload(interaction: discord.Interaction):
     print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}) requested reload!", flush=True)
     await interaction.response.send_message(response.reload_files())
+    
+@bot.tree.command(name="react", description="React to specific messages as a bot")
+@app_commands.describe(channel="channel", message="message", emoji="emoji")
+async def react(interaction:discord.Interaction,channel: discord.TextChannel, message: str, emoji: str):
+    if interaction.user.id not in allowed_users:
+        await interaction.response.send_message("You arent allowed to use this command", ephemeral=True)
+        return
+    try:
+        chonky = await channel.fetch_message(int(message))
+        await chonky.add_reaction(emoji)
+        await interaction.response.send_message("Success", ephemeral=True)
+    except:
+        await interaction.response.send_message("Fail", ephemeral=True)
+        
+
     
     
 
