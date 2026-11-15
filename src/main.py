@@ -60,7 +60,7 @@ async def debug(interaction: discord.Interaction, text: str):
 
 @bot.tree.command(name="kill", description="KILL :D")
 @app_commands.describe(key="secret key to kill", reason="The reason why it is being shutdown")
-async def kill(interaction: discord.Interaction, key: str, reason):
+async def kill(interaction: discord.Interaction, key: str, reason: str):
     print(f"\n[DEBUG] {interaction.user} ({interaction.user.id}): recieved secret key {key}", flush=True)
     if key == str(KILL_KEY):
         await interaction.response.send_message(f"Shutting Down, requested by {interaction.user}: ")
